@@ -1,24 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
-
+import { Divider, Stack, Box, createTheme, ThemeProvider } from "@mui/material";
+import { useState } from "react";
+import { Sidebar, Feed, Rightbar, Navbar, Add } from "./components";
 function App() {
+  const [mode, setMode] = useState(false);
+  const divider = <Divider orientation="vertical" flexItem />;
+  const theme = createTheme({
+    palette: {
+      mode: mode ? "dark" : "light",
+    },
+  });
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <ThemeProvider theme={theme}>
+      <Box bgcolor={"background.default"} color="text.primary" sx={{ position: "relative" }}>
+        <Navbar />
+        <Stack
+          direction={{ sm: "row", xs: "column" }}
+          spacing={{ sm: 3, xs: 2 }}
+          divider={divider}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
+          <Add />
+          <Sidebar mode={mode} toggleTheme={() => setMode((e) => !e)} />
+          <Feed />
+          <Rightbar />
+        </Stack>
+      </Box>
+    </ThemeProvider>
   );
 }
 
